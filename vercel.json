@@ -14,19 +14,19 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/webapp/backend/server.js"
+      "dest": "webapp/backend/server.js"
     },
     {
       "src": "/admin",
-      "dest": "/webapp/frontend/admin.html"
+      "dest": "webapp/frontend/admin.html"
     },
     {
       "src": "/dashboard",
-      "dest": "/webapp/frontend/dashboard.html"
+      "dest": "webapp/frontend/dashboard.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/webapp/frontend/index.html"
+      "dest": "webapp/frontend/index.html"
     }
   ]
 }
