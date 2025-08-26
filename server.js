@@ -196,9 +196,6 @@ app.get('/api/pending', (req, res) => {
   return res.json({ success: true, pending: db.pendingPoints });
 });
 
-// Serve frontend static files
-const frontendPath = path.join(__dirname, '..', 'frontend');
-app.use(express.static(frontendPath));
 
 // Export the Express app for use by serverless platforms like Vercel. In a
 // serverless environment, the platform will invoke this handler for each
