@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "name": "all-in-sport-bonusprogramm",
+  "builds": [
+    {
+      "src": "webapp/backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "webapp/frontend/(.*)",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/webapp/backend/server.js"
+    },
+    {
+      "src": "/admin",
+      "dest": "/webapp/frontend/admin.html"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/webapp/frontend/dashboard.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/webapp/frontend/index.html"
+    }
+  ]
+}
