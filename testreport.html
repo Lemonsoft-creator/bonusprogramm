@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testbericht – All in Sport Webapplikation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+    }
+    header {
+      background: #004080;
+      color: #fff;
+      padding: 1rem;
+    }
+    nav a {
+      color: #fff;
+      margin-right: 1rem;
+      text-decoration: none;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    h1, h2, h3, h4 {
+      color: #004080;
+    }
+    ul {
+      list-style-type: disc;
+      margin-left: 2rem;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    footer {
+      background: #f0f0f0;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Testbericht</h1>
+    <nav>
+      <a href="index.html">Konzept</a>
+      <a href="testreport.html">Testbericht</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Testbericht für „All in Sport“ (Webapplikation)</h2>
+      <p>Stand 25. August 2025</p>
+    </section>
+
+    <section>
+      <h2>1. Einleitung</h2>
+      <p>Dieser Bericht dokumentiert die Testergebnisse der Webanwendung All in Sport. Die Tests wurden aus Sicht eines normalen Nutzers und eines Administrators durchgeführt. Ziel war es, die Funktionen sowie das Verhalten der Applikation zu prüfen und etwaige Fehler für die Entwickler festzuhalten. Die Ergebnisse sind nach der Scrum‑Methodik als Product Backlog aufbereitet, sodass sie direkt in das Sprint‑Planning einfließen können.</p>
+    </section>
+
+    <section>
+      <h2>2. Zusammenfassung der getesteten Funktionen</h2>
+      <h3>2.1 Registrierung und Login (User Story)</h3>
+      <p><strong>Beschreibung:</strong> Als neuer Nutzer möchte ich mich registrieren und anschließend anmelden können, um das Bonusprogramm zu verwenden.</p>
+      <p><strong>Testschritte:</strong></p>
+      <ul>
+        <li>Registrierungsformular mit Anrede, Vorname, Nachname, Gym, Telefonnummer, E‑Mail und Passwort ausgefüllt und abgeschickt.</li>
+        <li>Mit den angelegten Daten eingeloggt.</li>
+        <li>Logout getestet.</li>
+      </ul>
+      <p><strong>Ergebnis:</strong> Registrierung und Login funktionieren ohne Fehlermeldung. Nach dem Logout wird die Sitzung beendet und ein neuer Login ist erforderlich.</p>
+
+      <h3>2.2 Dashboard und Leaderboard (User Story)</h3>
+      <p><strong>Beschreibung:</strong> Nach dem Login möchte ich meine Punkte sowie den Rang in der Monats‑ und Jahresrangliste sehen können.</p>
+      <p><strong>Testschritte:</strong></p>
+      <ul>
+        <li>Dashboard öffnet sich nach dem Login und zeigt den Gesamtpunktestand (0 Punkte bei neuen Accounts).</li>
+        <li>Leaderboard auf Monat und Jahr umgestellt.</li>
+      </ul>
+      <p><strong>Beobachtungen:</strong></p>
+      <ul>
+        <li>Monatsrangliste zeigt Max Mustermann (249 Punkte) vor Peter Weber (246 Punkte).</li>
+        <li>Jahresrangliste zeigt Peter Weber (492 Punkte) vor Max Mustermann (440 Punkte).</li>
+      </ul>
+
+      <h3>2.3 Gutscheine &amp; Trainingseintrag (User Story)</h3>
+      <p><strong>Beschreibung:</strong> Als Nutzer möchte ich verfügbare Belohnungen sehen, meine eigenen Gutscheine einlösen und Trainingseinheiten eintragen können.</p>
+      <p><strong>Testschritte:</strong></p>
+      <ul>
+        <li>Belohnungen (50 CHF bis VIP‑Session) angesehen; sie sind inaktiv, solange nicht genügend Punkte vorhanden sind.</li>
+        <li>Bereich „Meine Gutscheine“ war leer.</li>
+        <li>Trainingsdatum ausgewählt und Training eingetragen.</li>
+      </ul>
+      <p><strong>Ergebnis:</strong> Der Trainingseintrag erzeugt keine sofortige Punkteveränderung; eine Bestätigung durch einen Administrator scheint notwendig.</p>
+
+      <h3>2.4 Admin‑Bereich (User Story)</h3>
+      <p><strong>Beschreibung:</strong> Als Administrator möchte ich Punkte vergeben, Gutscheine ausstellen, Nutzer verwalten und CSV‑Import/Export nutzen können.</p>
+      <p><strong>Testschritte:</strong></p>
+      <ul>
+        <li>Mit Admin‑Code „ALLIN2024ADMIN“ registriert und eingeloggt.</li>
+        <li>Punkte vergeben (verschiedene User‑IDs, Kategorien und Punktewerte getestet).</li>
+        <li>„Gutschein ausstellen“, CSV‑Import, Datenexport und Nutzer‑Löschfunktion geprüft.</li>
+      </ul>
+      <p><strong>Beobachtungen:</strong></p>
+      <ul>
+        <li>„Unbestätigte Punkte“ zeigt nach Aktualisierung keine Einträge; vergebene Punkte müssen offenbar nicht bestätigt werden.</li>
+        <li>Ausgestellte Gutscheine erscheinen nicht unter „Meine Gutscheine“.</li>
+        <li>CSV‑Import (Testzeile für neuen User) erzeugt keinen neuen Nutzer in der Liste.</li>
+        <li>Buttons „User exportieren“ und „Punkte exportieren“ führen zu keiner sichtbaren Reaktion.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Schwerpunkt: Punktevergabe &amp; Ranking (Buganalyse)</h2>
+      <h3>Ausgangslage</h3>
+      <p>Vor den Admin‑Tests zeigte das Leaderboard folgende Reihenfolge:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Nutzer</th>
+            <th>Monatspunkte</th>
+            <th>Jahrespunkte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Max Mustermann</td>
+            <td>249</td>
+            <td>440</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Peter Weber</td>
+            <td>246</td>
+            <td>492</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Lisa Müller</td>
+            <td>177</td>
+            <td>338</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Tom Fischer</td>
+            <td>141</td>
+            <td>397</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Anna Schmidt</td>
+            <td>25</td>
+            <td>311</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Durchgeführte Tests</h3>
+      <ol>
+        <li>
+          <p><strong>Punktevergabe an Anna Schmidt (User ID 2) – 300 Punkte (Neukunde)</strong></p>
+          <p>Erwartung: Anna Schmidt sollte mit 25 + 300 = 325 Punkten im Monat bzw. 311 + 300 = 611 Punkten im Jahr an die Spitze der Rangliste springen.</p>
+          <p>Vorgehen: Form ausfüllen (Kategorie „Neukunde“, Punkte = 300, Beschreibung) und abschicken.</p>
+          <p>Ergebnis: Nach dem Absenden wurde das Formular zurückgesetzt. Die Ranglisten (Monat und Jahr) wurden über „Aktualisieren“ aktualisiert, blieben jedoch unverändert.</p>
+        </li>
+        <li>
+          <p><strong>Punktevergabe an Anna Schmidt – 400 Punkte (Firmentraining)</strong></p>
+          <p>Erwartung: Anna Schmidt sollte erneut deutlich steigen.</p>
+          <p>Ergebnis: Nach dem Absenden wurde das Formular geleert; die Ranglisten änderten sich auch nach Aktualisierung nicht. „Unbestätigte Punkte“ blieb leer.</p>
+        </li>
+        <li>
+          <p><strong>Punktevergabe an Admin‑User (User ID 6) – 600 Punkte (Privattraining)</strong></p>
+          <p>Erwartung: Der Admin‑Account sollte in der Rangliste auftauchen.</p>
+          <p>Ergebnis: Nach Eingabe und Absenden wurde das Formular zurückgesetzt, jedoch blieb die Rangliste identisch. Weder der Admin noch andere Nutzer erhielten Punkte oder veränderte Platzierungen.</p>
+        </li>
+      </ol>
+      <h3>Beobachtete Fehler</h3>
+      <ul>
+        <li>Keine Auswirkung der Punktevergabe auf das Leaderboard – Unabhängig von der eingetragenen Punktezahl oder Kategorie ändern sich die Punktestände und die Platzierungen im Leaderboard nicht; es bleibt auf den Initialwerten.</li>
+        <li>Leerer Bereich „Unbestätigte Punkte“ – Nach der Punktevergabe werden keine Einträge zur Bestätigung angezeigt, obwohl man erwarten würde, dass vergebene Punkte hier auftauchen.</li>
+        <li>Fehlende Rückmeldung bei Gutschein‑Vergabe und CSV‑Import – Weder die Vergabe von Gutscheinen noch der CSV‑Import führen zu sichtbaren Änderungen.</li>
+        <li>Keine Reaktion bei Datenexport – Die Buttons „User exportieren“ und „Punkte exportieren“ lösen keine Downloads oder Benachrichtigungen aus.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Produkt‑Backlog (Scrum‑Format)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Priorität</th>
+            <th>User Story / Aufgabe</th>
+            <th>Akzeptanzkriterien</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hoch</td>
+            <td>Als Administrator möchte ich durch die Punktevergabe die Punktekonten der Nutzer ändern und die Rangliste entsprechend aktualisieren können.</td>
+            <td>Nach dem Absenden werden die verteilten Punkte im Backend gespeichert. Die monatlichen und jährlichen Ranglisten passen sich nach Aktualisierung an (z. B. Anna Schmidt rückt bei +300 Punkten auf Platz 1).</td>
+            <td>Bug offen – Punkte werden zwar per Formular erfasst, verändern aber nichts.</td>
+          </tr>
+          <tr>
+            <td>Hoch</td>
+            <td>Als Administrator möchte ich sehen, ob vergebene Punkte noch bestätigt werden müssen.</td>
+            <td>Bereich „Unbestätigte Punkte“ zeigt die offenen Einträge und bietet die Möglichkeit zur Bestätigung oder Ablehnung.</td>
+            <td>Bug offen – Der Bereich bleibt leer, auch nach mehreren Vergaben.</td>
+          </tr>
+          <tr>
+            <td>Mittel</td>
+            <td>Als Administrator möchte ich Gutscheine ausstellen und sie im Nutzerkonto sehen.</td>
+            <td>Nach dem Ausstellen erscheint der Gutschein unter „Meine Gutscheine“ des entsprechenden Nutzers.</td>
+            <td>Bug offen – Ausgestellte Gutscheine werden nicht angezeigt.</td>
+          </tr>
+          <tr>
+            <td>Mittel</td>
+            <td>Als Administrator möchte ich neue Nutzer per CSV importieren.</td>
+            <td>Nach dem Import tauchen die neuen User in der Liste auf.</td>
+            <td>Bug offen – Kein neuer Nutzer nach CSV‑Import.</td>
+          </tr>
+          <tr>
+            <td>Niedrig</td>
+            <td>Als Administrator möchte ich Benutzerdaten exportieren.</td>
+            <td>Nach dem Klick auf „User exportieren“ oder „Punkte exportieren“ wird eine Datei heruntergeladen oder ein Ergebnis angezeigt.</td>
+            <td>Bug offen – Keine sichtbare Reaktion.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>5. Empfehlungen und nächste Schritte</h2>
+      <ul>
+        <li><strong>Backend‑Prüfung:</strong> Überprüfen, ob die Punktevergabe‑API oder die Datenbankaktualisierung korrekt implementiert ist. Momentan scheint der Submit‑Handler zwar zu reagieren (Formular wird geleert), aber die Daten werden nicht gespeichert oder im Leaderboard angezeigt.</li>
+        <li><strong>Logging & Feedback:</strong> Erfolgs‑ oder Fehlermeldungen nach der Punktevergabe und beim Gutschein‑ oder CSV‑Import sollten eingeführt werden. Dadurch erkennt der Admin sofort, ob eine Aktion erfolgreich war.</li>
+        <li><strong>Ranking‑Berechnung:</strong> Sicherstellen, dass die Rangliste nach Änderungen neu berechnet wird. Dies kann serverseitig (z. B. bei der Punktebuchung) oder clientseitig über den „Aktualisieren“-Button erfolgen.</li>
+        <li><strong>Benutzer‑ und Datenexport:</strong> Prüfen, ob die Endpunkte für den Export implementiert sind und im Frontend korrekt angesprochen werden.</li>
+        <li><strong>Scrum‑Prozess:</strong> Die identifizierten Bugs sollten in das nächste Sprint‑Backlog aufgenommen und priorisiert abgearbeitet werden. Nach der Fehlerbehebung empfiehlt sich eine erneute End‑to‑End‑Testphase.</li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 All in Sport Bonusprogramm – Testbericht</p>
+  </footer>
+</body>
+</html>
