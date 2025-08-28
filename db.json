@@ -1,4 +1,19 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@example.com",
+      "password": "adminpass",
+      "is_admin": true,
+      "points": 0
+    },
+    {
+      "id": 2,
+      "email": "user@example.com",
+      "password": "userpass",
+      "is_admin": false,
+      "points": 100
+    }
+  ],
   "points": []
 }

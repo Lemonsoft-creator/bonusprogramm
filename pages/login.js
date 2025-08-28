@@ -1,42 +1,77 @@
-// From pages/api/auth/login.js, the lib directory is three levels up.
-import { supabase } from '../../../lib/supabaseClient.js';
+import { useState } from 'react';
 
-/**
- * API route for user login.
- *
- * Validates POST requests with `email` and `password` and attempts to find a
- * matching record in the Supabase `users` table.  On success it returns
- * basic user information; otherwise an error code is returned.  Note that
- * credentials are compared as plain text, matching the original logic.
- */
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-  const { email, password } = req.body || {};
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email und Passwort sind erforderlich.' });
-  }
-  try {
-    const { data: users, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .eq('password', password);
-    if (error) {
-      console.error('Supabase query error:', error.message);
-      return res.status(500).json({ error: 'Interner Fehler beim Abrufen des Benutzers.' });
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        const role = data.isAdmin ? 'Admin' : 'Benutzer';
+        setMessage(`Anmeldung erfolgreich (${role}). Punkte: ${data.points}`);
+      } else {
+        setMessage(data.error || 'Fehler bei der Anmeldung.');
+      }
+    } catch (err) {
+      setMessage('Netzwerkfehler bei der Anmeldung.');
     }
-    if (!users || users.length === 0) {
-      return res.status(401).json({ error: 'Ungültige Anmeldedaten.' });
-    }
-    const user = users[0];
-    return res
-      .status(200)
-      .json({ id: user.id, email: user.email, isAdmin: user.is_admin, points: user.points });
-  } catch (err) {
-    console.error('Login handler unexpected error:', err);
-    return res.status(500).json({ error: 'Unerwarteter Serverfehler.' });
-  }
+  };
+
+  return (
+    <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h1>Anmelden</h1>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          maxWidth: '400px'
+        }}
+      >
+        <label>
+          E-Mail
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+        </label>
+        <label>
+          Passwort
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+        </label>
+        <button
+          type="submit"
+          style={{
+            padding: '0.75rem',
+            backgroundColor: '#0070f3',
+            color: '#fff',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          Anmelden
+        </button>
+      </form>
+      {message && <p style={{ marginTop: '1rem' }}>{message}</p>}
+    </main>
+  );
 }
