@@ -1,4 +1,3 @@
-cat > tsconfig.json <<'EOF'
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -18,4 +17,3 @@ cat > tsconfig.json <<'EOF'
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
-EOF
