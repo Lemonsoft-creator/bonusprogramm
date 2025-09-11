@@ -1,0 +1,1 @@
+export function Badge({ className = "", ...p }: React.HTMLAttributes<HTMLSpanElement>) { return <span className={`inline-flex items-center rounded-full bg-slate-100 text-slate-700 text-xs px-2 py-0.5 ${className}`} {...p} />; }
