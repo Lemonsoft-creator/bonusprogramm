@@ -118,71 +118,132 @@ const seedChallenges = [
 ];
 
 // ===== User-facing components =====
-function UserDashboard({ user, allUsers, challenges, onSubmitChallenge }: any) {
+function UserDashboard({
+  user,
+  allUsers,
+  challenges,
+  onSubmitChallenge,
+}: {
+  user: any;
+  allUsers: any[];
+  challenges: any[];
+  onSubmitChallenge: (id: string) => void;
+}) {
   const total = user.totalPoints;
-  const nextThreshold = useMemo(() => { const higher = LEVELS.map((l) => l.min).filter((m) => m > total).sort((a, b) => a - b)[0]; return higher ?? total; }, [total]);
+
+  const nextThreshold = useMemo(() => {
+    const higher = LEVELS.map((l) => l.min)
+      .filter((m) => m > total)
+      .sort((a, b) => a - b)[0];
+    return higher ?? total;
+  }, [total]);
+
   const remaining = Math.max(0, nextThreshold - total);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Fortschritt-Card */}
       <Card className="col-span-1 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl">
         <CardHeader className="flex flex-col items-center text-center">
           <Medal className="size-10 text-green-600" />
-          <CardTitle className="mt-2 text-2xl font-bold">Hey {user.name}!</CardTitle>
-          <CardDescription className="text-base">Dein Fortschritt</CardDescription>
+          <CardTitle className="mt-2 text-2xl font-bold">
+            Hey {user.name}!
+          </CardTitle>
+          <CardDescription className="text-base">
+            Dein Fortschritt
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
           <Ring total={total} next={nextThreshold} />
-          <div className="font-semibold text-lg">Noch {remaining} Punkte bis zur nächsten Stufe!</div>
-          <div className="flex items-center gap-2 text-sm text-orange-600"><Flame className="size-4"/> Streak: 5 Tage 🔥</div>
+          <div className="font-semibold text-lg">
+            Noch {remaining} Punkte bis zur nächsten Stufe!
+          </div>
+          <div className="flex items-center gap-2 text-sm text-orange-600">
+            <Flame className="size-4" /> Streak: 5 Tage 🔥
+          </div>
         </CardContent>
       </Card>
 
+      {/* Rechte Seite: Neue Aktivität, Leaderboard, Challenges, Verlauf */}
       <div className="lg:col-span-2 grid gap-6">
+        {/* Neue Aktivität */}
         <Card className="rounded-2xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><CalendarCheck2 className="size-5 text-green-600"/>Neue Aktivität</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <CalendarCheck2 className="size-5 text-green-600" />
+              Neue Aktivität
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <PointRequestForm />
           </CardContent>
         </Card>
 
+        {/* Leaderboard */}
         <Leaderboard me={user.id} users={allUsers} />
 
+        {/* Challenges */}
         <Card className="rounded-2xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Target className="size-5 text-purple-600"/>Challenges</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="size-5 text-purple-600" />
+              Challenges
+            </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3">
-            {challenges.map((c:any)=>(
-              <div key={c.id} className="p-3 rounded-xl bg-slate-100 flex justify-between items-center">
+            {challenges.map((c: any) => (
+              <div
+                key={c.id}
+                className="p-3 rounded-xl bg-slate-100 flex justify-between items-center"
+              >
                 <div>
                   <div className="font-bold">{c.name}</div>
-                  <div className="text-sm text-slate-500">{c.description}</div>
-                  <div className="text-xs">{c.points}★ • {c.from} – {c.to}</div>
+                  <div className="text-sm text-slate-500">
+                    {c.description}
+                  </div>
+                  <div className="text-xs">
+                    {c.points}★ • {c.from} – {c.to}
+                  </div>
                 </div>
-                <Button className="rounded-xl bg-green-500 text-white" onClick={()=>onSubmitChallenge(c.id)}>Einreichen</Button>
+                <Button
+                  className="rounded-xl bg-green-500 text-white"
+                  onClick={() => onSubmitChallenge(c.id)}
+                >
+                  Einreichen
+                </Button>
               </div>
             ))}
           </CardContent>
         </Card>
 
+        {/* Verlauf */}
         <Card className="rounded-2xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Sparkles className="size-5 text-sky-600"/>Verlauf</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="size-5 text-sky-600" />
+              Verlauf
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow><TableHead>Datum</TableHead><TableHead>Aktivität</TableHead><TableHead className="text-right">Punkte</TableHead></TableRow>
+                <TableRow>
+                  <TableHead>Datum</TableHead>
+                  <TableHead>Aktivität</TableHead>
+                  <TableHead className="text-right">Punkte</TableHead>
+                </TableRow>
               </TableHeader>
               <TableBody>
-                {user.ledger.map((e:any) => (
+                {user.ledger.map((e: any) => (
                   <TableRow key={e.id}>
                     <TableCell>{e.date}</TableCell>
-                    <TableCell>{POINT_RULES[e.rule as keyof typeof POINT_RULES]?.label || e.rule}</TableCell>
-                    <TableCell className="text-right">{e.points > 0 ? `+${e.points}` : e.points}</TableCell>
+                    <TableCell>
+                      {POINT_RULES[e.rule as keyof typeof POINT_RULES]?.label ||
+                        e.rule}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {e.points > 0 ? `+${e.points}` : e.points}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -196,25 +257,7 @@ function UserDashboard({ user, allUsers, challenges, onSubmitChallenge }: any) {
 
 function PointRequestForm() {
   const [type, setType] = useState<keyof typeof POINT_RULES>("TRAINING");
-  return (
-    <form className="grid gap-4">
-      <Select value={type} onValueChange={(v) => setType(v as keyof typeof POINT_RULES)}>
-        <SelectTrigger className="w-full rounded-xl border-2 border-green-300">
-          <SelectValue placeholder="Aktivität wählen" />
-        </SelectTrigger>
-        <SelectContent>
-          {Object.entries(POINT_RULES).map(([k,v]) => <SelectItem key={k} value={k}>{v.label} (+{v.points})</SelectItem>)}
-        </SelectContent>
-      </Select>
-      <Input type="date" className="rounded-xl border-2 border-green-200" />
-      <Textarea placeholder="Kommentar…" className="rounded-xl border-2 border-green-200" />
-      <Button className="rounded-xl bg-green-500 hover:bg-green-600 text-white font-bold">Einreichen</Button>
-    </form>
-  );
-}
 
-function PointRequestForm() {
-  const [type, setType] = useState<keyof typeof POINT_RULES>("TRAINING");
   return (
     <form className="grid gap-4">
       <Select
@@ -232,6 +275,7 @@ function PointRequestForm() {
           ))}
         </SelectContent>
       </Select>
+
       <Input type="date" className="rounded-xl border-2 border-green-200" />
       <Textarea
         placeholder="Kommentar…"
