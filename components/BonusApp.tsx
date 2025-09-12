@@ -14,6 +14,57 @@ import { Switch } from "@/components/ui/switch";
 import { CalendarCheck2, Gift, Medal, Settings, Sparkles, Trophy, Users, CheckCircle2, XCircle, Search, Shield, LogOut, LogIn, Edit3, PlusCircle, RotateCcw, Flame, Target } from "lucide-react";
 import { motion } from "framer-motion";
 
+
+function Leaderboard({
+  me,
+  users,
+}: {
+  me: string;
+  users: Array<{ id: string; firstName: string; lastName: string; totalPoints: number }>;
+}) {
+  const sorted = [...users].sort((a, b) => b.totalPoints - a.totalPoints);
+
+  return (
+    <Card className="rounded-2xl">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Trophy className="size-5 text-amber-500" />
+          Leaderboard
+        </CardTitle>
+        <CardDescription>Top-Punktestände</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>#</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead className="text-right">Punkte</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {sorted.map((u, idx) => {
+              const isMe = u.id === me;
+              return (
+                <TableRow key={u.id} className={isMe ? "bg-green-50" : undefined}>
+                  <TableCell>{idx + 1}</TableCell>
+                  <TableCell className="flex items-center gap-2">
+                    {isMe && <Badge>Du</Badge>}
+                    {u.firstName} {u.lastName}
+                  </TableCell>
+                  <TableCell className="text-right font-semibold">
+                    {u.totalPoints}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}
+
 /**
  * All in Sport Bonusprogramm – React Mockup (Duolingo-inspired, Auth + Admin + Challenges)
  * - Full feature: Login, User, Admin, Queues (points/vouchers/challenge submissions),
@@ -260,8 +311,7 @@ function PointRequestForm() {
 
   return (
     <form className="grid gap-4">
-      <Select
-        value={type}
+      <Select<keyof typeof POINT_RULES> value={type}
         onValueChange={(v: keyof typeof POINT_RULES) => setType(v)}
       >
         <SelectTrigger className="w-full rounded-xl border-2 border-green-300">
@@ -512,7 +562,7 @@ function GrantPointsForm({ users, onGrant }: any) {
       </div>
       <div>
         <Label>Aktivität</Label>
-        <Select value={type} onValueChange={(v: keyof typeof POINT_RULES)=>setType(v)}>
+        <Select<keyof typeof POINT_RULES> value={type} onValueChange={(v: keyof typeof POINT_RULES)=>setType(v)}>
           <SelectTrigger className="w-full mt-1 rounded-xl border-2 border-green-300"><SelectValue/></SelectTrigger>
           <SelectContent>
             {Object.entries(POINT_RULES).map(([k,v])=> <SelectItem key={k} value={k}>{v.label} (+{v.points})</SelectItem>)}
@@ -679,7 +729,7 @@ function LoginScreen({ onLogin }: any) {
         <CardContent className="grid gap-3">
           <div>
             <Label>Rolle</Label>
-            <Select value={role} onValueChange={(v: "user" | "admin") => setRole(v)}>
+            <Select<"user" | "admin"> value={role} onValueChange={(v: "user" | "admin") => setRole(v)}>
               <SelectTrigger className="w-full mt-1 rounded-xl border-2 border-green-300"><SelectValue/></SelectTrigger>
               <SelectContent>
                 <SelectItem value="user">User</SelectItem>
