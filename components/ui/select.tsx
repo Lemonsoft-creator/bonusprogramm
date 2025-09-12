@@ -1,72 +1,67 @@
-'use client';
-import * as React from 'react';
-import { cn } from '../utils';
+import * as React from "react"
+import * as SelectPrimitive from "@radix-ui/react-select"
+import { Check, ChevronDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-type SelectCtx = {
-  value: string;
-  setValue: (v: string) => void;
-};
-const Ctx = React.createContext<SelectCtx | null>(null);
+const Select = SelectPrimitive.Root
+const SelectGroup = SelectPrimitive.Group
+const SelectValue = SelectPrimitive.Value
+const SelectTrigger = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      "flex h-9 w-full items-center justify-between rounded-xl border border-input bg-background px-3 py-2 text-sm shadow-sm",
+      className
+    )}
+    {...props}
+  >
+    {children}
+    <SelectPrimitive.Icon asChild>
+      <ChevronDown className="ml-2 size-4 opacity-50" />
+    </SelectPrimitive.Icon>
+  </SelectPrimitive.Trigger>
+))
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
-// Generische Select-API: Select<T> kennt den Typ des Werts
-export function Select<T extends string = string>({
-  value,
-  onValueChange,
-  children,
-}: {
-  value: T;
-  onValueChange: (value: T) => void;
-  children: React.ReactNode;
-}) {
-  const setValue = (v: string) => onValueChange(v as T);
-  return <Ctx.Provider value={{ value: String(value), setValue }}>{children}</Ctx.Provider>;
-}
-
-export function SelectTrigger({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn('h-10 px-3 border rounded-md flex items-center justify-between bg-white', className)}
+const SelectContent = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Portal>
+    <SelectPrimitive.Content
+      ref={ref}
+      className={cn("overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-md", className)}
       {...props}
     >
-      {children}
-    </div>
-  );
-}
+      <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
+    </SelectPrimitive.Content>
+  </SelectPrimitive.Portal>
+))
+SelectContent.displayName = SelectPrimitive.Content.displayName
 
-export function SelectValue({ placeholder }: { placeholder?: string }) {
-  const ctx = React.useContext(Ctx);
-  return <span className="text-slate-700">{ctx?.value || placeholder || ''}</span>;
-}
+const SelectItem = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex w-full cursor-default select-none items-center rounded-lg px-3 py-2 text-sm outline-none focus:bg-accent",
+      className
+    )}
+    {...props}
+  >
+    <span className="absolute right-2 flex size-3.5 items-center justify-center">
+      <SelectPrimitive.ItemIndicator>
+        <Check className="size-4" />
+      </SelectPrimitive.ItemIndicator>
+    </span>
+    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+  </SelectPrimitive.Item>
+))
+SelectItem.displayName = SelectPrimitive.Item.displayName
 
-export function SelectContent({ children }: { children: React.ReactNode }) {
-  // Vereinfachtes Dropdown: direkt rendern
-  return <div className="mt-2 grid gap-1">{children}</div>;
-}
-
-export function SelectItem({
-  value,
-  children,
-}: {
-  value: string;
-  children: React.ReactNode;
-}) {
-  const ctx = React.useContext(Ctx);
-  if (!ctx) return null;
-  const active = ctx.value === value;
-  return (
-    <button
-      type="button"
-      onClick={() => ctx.setValue(value)}
-      className={cn(
-        'w-full text-left px-3 py-2 rounded-md border',
-        active ? 'bg-green-50 border-green-300' : 'bg-white hover:bg-slate-50 border-slate-200'
-      )}
-    >
-      {children}
-    </button>
-  );
-}
+export { Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectItem }
