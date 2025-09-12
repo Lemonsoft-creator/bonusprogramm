@@ -213,23 +213,34 @@ function PointRequestForm() {
   );
 }
 
-function Leaderboard({ me, users }: { me: string; users: any[] }) {
-  const rows = [...users].sort((a,b)=>b.totalPoints-a.totalPoints).slice(0,5);
+function PointRequestForm() {
+  const [type, setType] = useState<keyof typeof POINT_RULES>("TRAINING");
   return (
-    <Card className="rounded-2xl">
-      <CardHeader className="text-center">
-        <Trophy className="size-8 text-yellow-500 mx-auto" />
-        <CardTitle className="mt-2 text-xl font-bold">Leaderboard</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-2">
-        {rows.map((r,i)=>(
-          <motion.div key={r.id} whileHover={{ scale: 1.02 }} className={`flex justify-between p-3 rounded-xl ${r.id===me ? 'bg-green-100' : 'bg-slate-100'}`}>
-            <span className="font-semibold">#{i+1} {r.firstName}</span>
-            <span>{r.totalPoints}★</span>
-          </motion.div>
-        ))}
-      </CardContent>
-    </Card>
+    <form className="grid gap-4">
+      <Select
+        value={type}
+        onValueChange={(v: keyof typeof POINT_RULES) => setType(v)}
+      >
+        <SelectTrigger className="w-full rounded-xl border-2 border-green-300">
+          <SelectValue placeholder="Aktivität wählen" />
+        </SelectTrigger>
+        <SelectContent>
+          {Object.entries(POINT_RULES).map(([k, v]) => (
+            <SelectItem key={k} value={k}>
+              {v.label} (+{v.points})
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Input type="date" className="rounded-xl border-2 border-green-200" />
+      <Textarea
+        placeholder="Kommentar…"
+        className="rounded-xl border-2 border-green-200"
+      />
+      <Button className="rounded-xl bg-green-500 hover:bg-green-600 text-white font-bold">
+        Einreichen
+      </Button>
+    </form>
   );
 }
 
