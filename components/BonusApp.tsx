@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+ import React, { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -512,7 +512,7 @@ function GrantPointsForm({ users, onGrant }: any) {
       </div>
       <div>
         <Label>Aktivität</Label>
-        <Select value={type} onValueChange={(v)=>setType(v as keyof typeof POINT_RULES)}>
+        <Select value={type} onValueChange={(v: keyof typeof POINT_RULES)=>setType(v)}>
           <SelectTrigger className="w-full mt-1 rounded-xl border-2 border-green-300"><SelectValue/></SelectTrigger>
           <SelectContent>
             {Object.entries(POINT_RULES).map(([k,v])=> <SelectItem key={k} value={k}>{v.label} (+{v.points})</SelectItem>)}
@@ -679,7 +679,7 @@ function LoginScreen({ onLogin }: any) {
         <CardContent className="grid gap-3">
           <div>
             <Label>Rolle</Label>
-            <Select value={role} onValueChange={(v)=>setRole(v as any)}>
+            <Select value={role} onValueChange={(v: "user" | "admin") => setRole(v)}>
               <SelectTrigger className="w-full mt-1 rounded-xl border-2 border-green-300"><SelectValue/></SelectTrigger>
               <SelectContent>
                 <SelectItem value="user">User</SelectItem>
