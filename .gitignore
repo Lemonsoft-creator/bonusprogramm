@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# next.js
+.next/
+out/
+.vercel/
+
+# typescript
+*.tsbuildinfo
+
+# env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# lockfiles (nur einen benutzen)
+package-lock.json
+yarn.lock
+
+# misc
+.DS_Store
+npm-debug.log*
