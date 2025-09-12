@@ -1,1 +1,0 @@
-export function Label({ className = "", ...p }: React.HTMLAttributes<HTMLLabelElement>) { return <label className={`text-sm text-slate-700 ${className}`} {...p} />; }
